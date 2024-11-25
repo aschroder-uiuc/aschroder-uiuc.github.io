@@ -11,17 +11,18 @@
     <button id="searchButton">Search</button>
 
     <div id="recommendations">This is the book recommendations div.</div>
+    <p>------------------------------------------------------------</p>
     <div id="wikipedia">This is the wikipedia div.</div>
 
     <script>
       document.getElementById("searchButton").addEventListener("click", () => {
-        const query = document.getElementById("searchInput").value.trim();
-        if (!query) {
+        const subject = document.getElementById("searchInput").value.trim();
+        if (!subject) {
           alert("Please enter a search term to get a recommendation.");
           return;
         }
 
-        const wikipediaApiUrl = `https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&generator=search&gsrsearch=${encodeURIComponent(query)}&explaintext=1&gsrlimit=1&origin=*`;
+        const wikipediaApiUrl = `https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&generator=search&gsrsearch=${encodeURIComponent(subject)}&explaintext=1&gsrlimit=1&origin=*`;
         fetch(wikipediaApiUrl)
           .then((response) => response.json())
           .then((data) => {
@@ -31,9 +32,18 @@
 
             document.getElementById("wikipedia").innerText = wikipediaText;
 
-            const recommendations = recommendBooks(wikipediaText);
-            document.getElementById("recommendations").innerHTML =
-              JSON.stringify(recommendations)
+            const recommendation = recommendBooks(wikipediaText);
+            if (recommendation) {
+              document.getElementById("recommendations").innerHTML = `
+                <h2>Recommended book for subject: ${subject}</h2>
+                <h2>${recommendation.title} by ${recommendation.author}</h2>
+                <h3>Description:</h3>
+                <p>${recommendation.description}</p>
+              `;
+            } else {
+              document.getElementById("recommendations").innerHTML =
+                "No recommendation found, try again with a different topic.";
+            }
           })
           .catch((error) => {
             console.error(error);
@@ -94,8 +104,11 @@
         const results = idx.search(searchQuery);
         //const results = idx.search(text);
 
-        console.log(results);
-        return results;
+        const matchedBook = bookList.find(
+          (book) => book.id.toString() === results[0].ref,
+        );
+        
+        return matchedBook;
       }
     </script>
   </body>
