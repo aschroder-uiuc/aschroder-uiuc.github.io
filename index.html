@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Book Recommendations for Wikipedia Topics</title>
+  </head>
+  <body>
+    <script src="lunr.js"></script>
+    <h1>Book Recommendations for Wikipedia Topics</h1>
+    <p>Enter topic here:</p>
+    <input type="text" id="searchInput" placeholder="Jupiter" />
+    <button id="searchButton">Search</button>
+
+    <div id="recommendations">This is the book recommendations div.</div>
+    <div id="wikipedia">This is the wikipedia div.</div>
+
+    <script>
+      document.getElementById("searchButton").addEventListener("click", () => {
+        const query = document.getElementById("searchInput").value.trim();
+        if (!query) {
+          alert("Please enter a search term to get a recommendation.");
+          return;
+        }
+
+        const wikipediaApiUrl = `https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&generator=search&gsrsearch=${encodeURIComponent(query)}&explaintext=1&gsrlimit=1&origin=*`;
+        fetch(wikipediaApiUrl)
+          .then((response) => response.json())
+          .then((data) => {
+            const pages = data.query.pages;
+            const page = Object.values(pages)[0];
+            const wikipediaText = page.extract || "No Wikipedia result found.";
+
+            document.getElementById("wikipedia").innerText = wikipediaText;
+
+            const recommendations = recommendBooks(wikipediaText);
+            document.getElementById("recommendations").innerHTML =
+              JSON.stringify(recommendations)
+          })
+          .catch((error) => {
+            console.error(error);
+            document.getElementById("wikipedia").innerText =
+              "An error occurred. Please reload the page and try again with a different topic.";
+          });
+      });
+
+      function recommendBooks(text) {
+        const bookList = [
+          {
+            title: "The Quiet American",
+            author: "Graham Greene",
+            description:
+              "Set during the French colonial war in Vietnam, this novel follows a British journalist and a young American idealist who become friends and find themselves in a love triangle with a Vietnamese woman. As the war escalates, the journalist becomes disillusioned with the American's naïve political views and the destructive impact of foreign intervention. The story is a critique of American involvement in Vietnam, exploring themes of love, friendship, and moral ambiguity.",
+            genres: ["thrillers"],
+            id: 145,
+          },
+          {
+            title: "The Postman Always Rings Twice",
+            author: "James M. Cain",
+            description:
+              "This novel is a thrilling tale of passion, murder, and betrayal. The story revolves around a drifter who becomes involved in an adulterous affair with a married woman. Together, they plot to kill her older husband for the insurance money. However, their plan spirals out of control, leading to unexpected consequences and a shocking conclusion. The narrative explores themes of lust, greed, and the destructive power of obsession.",
+            genres: ["thrillers"],
+            id: 146,
+          },
+          {
+            title: "Casino Royale",
+            author: "Ian Fleming",
+            description:
+              "A British secret agent in Amherst College Massachusetts is tasked with bankrupting a French communist and paymaster of a Russian secret agency at a high-stakes card game in a casino. As he navigates the dangerous world of espionage, he encounters a beautiful woman who is being blackmailed by the enemy. The agent must outwit his opponents and survive numerous attempts on his life, all while grappling with his growing feelings for the woman.",
+            genres: ["thrillers"],
+            id: 147,
+          },
+        ];
+
+        const idx = lunr(function () {
+          this.field("title");
+          this.field("body");
+          this.field("author");
+          this.field("genre");
+          this.field("id");
+
+          for (let book of bookList) {
+            this.add({
+              title: book.title,
+              body: book.description,
+              author: book.author,
+              genre: book.genre,
+              id: book.id,
+            });
+          }
+        });
+
+        const searchQuery =
+          "Amherst College ( AM-ərst) is a private liberal arts college in Amherst, Massachusetts. Founded in 1821 as an attempt to relocate Williams College by its then-president Zephaniah Swift Moore, Amherst is the third oldest institution of higher education in Massachusetts. The institution was named after the town, which in turn had been named after Jeffery, Lord Amherst, Commander-in-Chief of British forces of North America during the French and Indian War. Originally established as a men's college, Amherst became coeducational in 1975. Amherst is an exclusively undergraduate four-year institution; 1,971 students were enrolled in fall 2021. Admissions are highly selective. Students choose courses from 42 major programs in an open curriculum and are not required to study a core curriculum or fulfill any distribution requirements; students may also design their own interdisciplinary major. Amherst competes in the New England Small College Athletic Conference. Amherst has historically had close relationships and rivalries with Williams College and Wesleyan University, which form the Little Three colleges. The college is also a member of the Five College Consortium, which allows its students to attend classes at four other Pioneer Valley institutions Mount Holyoke College, Smith College, Hampshire College, and the University of Massachusetts Amherst";
+
+        const results = idx.search(searchQuery);
+        //const results = idx.search(text);
+
+        console.log(results);
+        return results;
+      }
+    </script>
+  </body>
+</html>
