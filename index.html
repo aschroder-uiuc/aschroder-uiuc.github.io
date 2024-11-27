@@ -98,16 +98,13 @@
           }
         });
 
-        const searchQuery =
-          "Amherst College ( AM-ərst) is a private liberal arts college in Amherst, Massachusetts. Founded in 1821 as an attempt to relocate Williams College by its then-president Zephaniah Swift Moore, Amherst is the third oldest institution of higher education in Massachusetts. The institution was named after the town, which in turn had been named after Jeffery, Lord Amherst, Commander-in-Chief of British forces of North America during the French and Indian War. Originally established as a men's college, Amherst became coeducational in 1975. Amherst is an exclusively undergraduate four-year institution; 1,971 students were enrolled in fall 2021. Admissions are highly selective. Students choose courses from 42 major programs in an open curriculum and are not required to study a core curriculum or fulfill any distribution requirements; students may also design their own interdisciplinary major. Amherst competes in the New England Small College Athletic Conference. Amherst has historically had close relationships and rivalries with Williams College and Wesleyan University, which form the Little Three colleges. The college is also a member of the Five College Consortium, which allows its students to attend classes at four other Pioneer Valley institutions Mount Holyoke College, Smith College, Hampshire College, and the University of Massachusetts Amherst";
-
-        const results = idx.search(searchQuery);
-        //const results = idx.search(text);
+        const cleanedText = text.replace(/:/g, "");
+        const results = idx.search(cleanedText);
 
         const matchedBook = bookList.find(
           (book) => book.id.toString() === results[0].ref,
         );
-        
+
         return matchedBook;
       }
     </script>
