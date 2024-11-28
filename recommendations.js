@@ -1,6 +1,5 @@
-function getRecommendationText(recommendation) {
+function getRecommendationText(recommendation, subject) {
     let displayText;
-    const subject = "some subject here"; //TODO replace if i can get this to work
     if (!recommendation) {
       displayText = "No recommendation found, try again with a different topic.";
     } else {

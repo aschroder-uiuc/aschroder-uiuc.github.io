@@ -29,15 +29,15 @@
 
           const wikipediaText = await getWikipediaText(subject);
           document.getElementById("wikipedia").innerText = wikipediaText;
-          const recommendation = getBookRecommendation(wikipediaText);
+          const recommendation = getBookRecommendation(wikipediaText, subject);
           document.getElementById("recommendations").innerHTML = recommendation;
         });
     </script>
     <script>
-      function getBookRecommendation(wikipediaText) {
+      function getBookRecommendation(wikipediaText, subject) {
         const bookList = getBookList();
         const recommendation = recommendBooks(wikipediaText, bookList);
-        const recommendationText = getRecommendationText(recommendation);
+        const recommendationText = getRecommendationText(recommendation, subject);
         return recommendationText;
       }
     </script>
