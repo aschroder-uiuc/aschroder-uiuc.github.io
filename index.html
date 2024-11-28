@@ -5,6 +5,9 @@
   </head>
   <body>
     <script src="lunr.js"></script>
+    <script src="wikipedia.js"></script>
+    <script src="recommendations.js"></script>
+    <script src="utils.js"></script>
     <h1>Book Recommendations for Wikipedia Topics</h1>
     <p>Enter topic here:</p>
     <input type="text" id="searchInput" placeholder="Jupiter" />
@@ -15,97 +18,27 @@
     <div id="wikipedia">This is the wikipedia div.</div>
 
     <script>
-      document.getElementById("searchButton").addEventListener("click", () => {
-        const subject = document.getElementById("searchInput").value.trim();
-        if (!subject) {
-          alert("Please enter a search term to get a recommendation.");
-          return;
-        }
-
-        const wikipediaApiUrl = `https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&generator=search&gsrsearch=${encodeURIComponent(subject)}&explaintext=1&gsrlimit=1&origin=*`;
-        fetch(wikipediaApiUrl)
-          .then((response) => response.json())
-          .then((data) => {
-            const pages = data.query.pages;
-            const page = Object.values(pages)[0];
-            const wikipediaText = page.extract || "No Wikipedia result found.";
-
-            document.getElementById("wikipedia").innerText = wikipediaText;
-
-            const recommendation = recommendBooks(wikipediaText);
-            if (recommendation) {
-              document.getElementById("recommendations").innerHTML = `
-                <h2>Recommended book for subject: ${subject}</h2>
-                <h2>${recommendation.title} by ${recommendation.author}</h2>
-                <h3>Description:</h3>
-                <p>${recommendation.description}</p>
-              `;
-            } else {
-              document.getElementById("recommendations").innerHTML =
-                "No recommendation found, try again with a different topic.";
-            }
-          })
-          .catch((error) => {
-            console.error(error);
-            document.getElementById("wikipedia").innerText =
-              "An error occurred. Please reload the page and try again with a different topic.";
-          });
-      });
-
-      function recommendBooks(text) {
-        const bookList = [
-          {
-            title: "The Quiet American",
-            author: "Graham Greene",
-            description:
-              "Set during the French colonial war in Vietnam, this novel follows a British journalist and a young American idealist who become friends and find themselves in a love triangle with a Vietnamese woman. As the war escalates, the journalist becomes disillusioned with the American's naïve political views and the destructive impact of foreign intervention. The story is a critique of American involvement in Vietnam, exploring themes of love, friendship, and moral ambiguity.",
-            genres: ["thrillers"],
-            id: 145,
-          },
-          {
-            title: "The Postman Always Rings Twice",
-            author: "James M. Cain",
-            description:
-              "This novel is a thrilling tale of passion, murder, and betrayal. The story revolves around a drifter who becomes involved in an adulterous affair with a married woman. Together, they plot to kill her older husband for the insurance money. However, their plan spirals out of control, leading to unexpected consequences and a shocking conclusion. The narrative explores themes of lust, greed, and the destructive power of obsession.",
-            genres: ["thrillers"],
-            id: 146,
-          },
-          {
-            title: "Casino Royale",
-            author: "Ian Fleming",
-            description:
-              "A British secret agent in Amherst College Massachusetts is tasked with bankrupting a French communist and paymaster of a Russian secret agency at a high-stakes card game in a casino. As he navigates the dangerous world of espionage, he encounters a beautiful woman who is being blackmailed by the enemy. The agent must outwit his opponents and survive numerous attempts on his life, all while grappling with his growing feelings for the woman.",
-            genres: ["thrillers"],
-            id: 147,
-          },
-        ];
-
-        const idx = lunr(function () {
-          this.field("title");
-          this.field("body");
-          this.field("author");
-          this.field("genre");
-          this.field("id");
-
-          for (let book of bookList) {
-            this.add({
-              title: book.title,
-              body: book.description,
-              author: book.author,
-              genre: book.genre,
-              id: book.id,
-            });
+      document
+        .getElementById("searchButton")
+        .addEventListener("click", async () => {
+          const subject = document.getElementById("searchInput").value.trim();
+          if (!subject) {
+            alert("Please enter a search term to get a recommendation.");
+            return;
           }
+
+          const wikipediaText = await getWikipediaText(subject);
+          document.getElementById("wikipedia").innerText = wikipediaText;
+          const recommendation = getBookRecommendation(wikipediaText);
+          document.getElementById("recommendations").innerHTML = recommendation;
         });
-
-        const cleanedText = text.replace(/:/g, "");
-        const results = idx.search(cleanedText);
-
-        const matchedBook = bookList.find(
-          (book) => book.id.toString() === results[0].ref,
-        );
-
-        return matchedBook;
+    </script>
+    <script>
+      function getBookRecommendation(wikipediaText) {
+        const bookList = getBookList();
+        const recommendation = recommendBooks(wikipediaText, bookList);
+        const recommendationText = getRecommendationText(recommendation);
+        return recommendationText;
       }
     </script>
   </body>
