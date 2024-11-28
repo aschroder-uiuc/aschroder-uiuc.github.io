@@ -32,7 +32,7 @@ function getRecommendationText(recommendation, subject) {
       }
     });
   
-    const cleanedText = wikipediaText.replace(/:/g, "");
+    const cleanedText = cleanInputText(wikipediaText)
     const results = idx.search(cleanedText);
   
     if (results.length === 0) {
@@ -45,4 +45,11 @@ function getRecommendationText(recommendation, subject) {
   
     return matchedBook;
   }
-  
+
+  function cleanInputText(wikipediaText) {
+    //TODO figure out how to handle topics that have formulas
+    let cleanedText = wikipediaText.replace(/:/g, ""); //colon is a keyword for lunr, so remove from incoming text
+    cleanedText = cleanedText.replace(/==.*?==/gs, ''); // remove headers
+    cleanedText = cleanedText.replace(/===.*?===/gs, ''); // remove headers part deux
+    return cleanedText;
+  }
