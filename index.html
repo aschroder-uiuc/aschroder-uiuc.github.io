@@ -3,6 +3,11 @@
   <head>
     <title>Book Recommendations for Wikipedia Topics</title>
   </head>
+  <style>
+    body {
+      margin-left: 20px;
+    }
+  </style>  
   <body>
     <script src="lunr.js"></script>
     <script src="wikipedia.js"></script>
@@ -14,20 +19,23 @@
     <input type="text" id="searchInput" placeholder="Jupiter" />
     <button id="searchButton">Search</button>
 
-    <p>Select genre:</p>
+    <h2>Optional user preferences:</h2>
+    <div style="display: flex; gap: 10px; align-items: center;">
+    <p>Genre:</p>
     <select id="genreDropdown">
       <option value="">--Genre--</option>
     </select>
 
-    <p>Select location:</p>
+    <p>Location:</p>
     <select id="locationDropdown">
       <option value="">--Location--</option>
     </select>
 
-    <p>Select subject:</p>
+    <p>Subject:</p>
     <select id="subjectDropdown">
       <option value="">--Subject--</option>
     </select>
+    </div>
 
     <div id="recommendations">This is the book recommendations div.</div>
     <p>------------------------------------------------------------</p>
