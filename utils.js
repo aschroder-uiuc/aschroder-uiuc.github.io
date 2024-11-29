@@ -3026,3 +3026,40 @@ const bookList = [
 function getBookList() {
     return bookList;
 }
+
+function getGenreList() {
+    const genreList = new Set();
+
+    bookList.forEach((book) => {
+      if (book.genre) {
+        book.genre.forEach((genre) => genreList.add(genre.replace(/-/g, " ")));
+      }
+    });
+    const genreListSorted = Array.from(genreList).sort();
+    return genreListSorted;
+}
+
+function getSettingsList() {
+    const settingsList = new Set();
+
+    bookList.forEach((book) => {
+      if (book.setting) {
+        book.setting.forEach((setting) => settingsList.add(setting.replace(/-/g, " ")));
+      }
+    });
+    const settingsListSorted = Array.from(settingsList).sort();
+    console.log(settingsListSorted)
+    return settingsListSorted;
+}
+
+function getSubjectList() {
+    const subjectList = new Set();
+
+    bookList.forEach((book) => {
+      if (book.subject) {
+        book.subject.forEach((subject) => subjectList.add(subject.replace(/-/g, " ")));
+      }
+    });
+    const subjectListSorted = Array.from(subjectList).sort();
+    return subjectListSorted;
+}

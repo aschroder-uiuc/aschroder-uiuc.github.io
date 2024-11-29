@@ -8,15 +8,67 @@
     <script src="wikipedia.js"></script>
     <script src="recommendations.js"></script>
     <script src="utils.js"></script>
+
     <h1>Book Recommendations for Wikipedia Topics</h1>
     <p>Enter topic here:</p>
     <input type="text" id="searchInput" placeholder="Jupiter" />
     <button id="searchButton">Search</button>
 
+    <p>Select genre:</p>
+    <select id="genreDropdown">
+      <option value="">--Genre--</option>
+    </select>
+
+    <p>Select location:</p>
+    <select id="locationDropdown">
+      <option value="">--Location--</option>
+    </select>
+
+    <p>Select subject:</p>
+    <select id="subjectDropdown">
+      <option value="">--Subject--</option>
+    </select>
+
     <div id="recommendations">This is the book recommendations div.</div>
     <p>------------------------------------------------------------</p>
     <div id="wikipedia">This is the wikipedia div.</div>
 
+    <script>
+      document.addEventListener("DOMContentLoaded", populateGenreDropdown);
+      function populateGenreDropdown() {
+        const genreList = getGenreList();
+        const dropdown = document.getElementById("genreDropdown");
+        genreList.forEach((genre) => {
+          const option = document.createElement("option");
+          option.value = genre;
+          option.textContent = genre;
+          dropdown.appendChild(option);
+        });
+      }
+      document.addEventListener("DOMContentLoaded", populateLocationDropdown);
+      function populateLocationDropdown() {
+        const settingsList = getSettingsList();
+        console.log('in event listener', settingsList)
+        const dropdown = document.getElementById("locationDropdown");
+        settingsList.forEach((setting) => {
+          const option = document.createElement("option");
+          option.value = setting;
+          option.textContent = setting;
+          dropdown.appendChild(option);
+        });
+      }
+      document.addEventListener("DOMContentLoaded", populateSubjectDropdown);
+      function populateSubjectDropdown() {
+        const subjectList = getSubjectList();
+        const dropdown = document.getElementById("subjectDropdown");
+        subjectList.forEach((subject) => {
+          const option = document.createElement("option");
+          option.value = subject;
+          option.textContent = subject;
+          dropdown.appendChild(option);
+        });
+      }
+    </script>
     <script>
       document
         .getElementById("searchButton")
@@ -37,7 +89,10 @@
       function getBookRecommendation(wikipediaText, subject) {
         const bookList = getBookList();
         const recommendation = recommendBooks(wikipediaText, bookList);
-        const recommendationText = getRecommendationText(recommendation, subject);
+        const recommendationText = getRecommendationText(
+          recommendation,
+          subject,
+        );
         return recommendationText;
       }
     </script>
