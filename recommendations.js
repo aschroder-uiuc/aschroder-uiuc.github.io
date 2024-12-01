@@ -19,6 +19,8 @@ function getRecommendationText(recommendation, subject) {
       this.field("body");
       this.field("author");
       this.field("genre");
+      this.field("setting");
+      this.field("subject");
       this.field("id");
   
       for (let book of bookList) {
@@ -27,6 +29,8 @@ function getRecommendationText(recommendation, subject) {
           body: book.description,
           author: book.author,
           genre: book.genre,
+          setting: book.setting,
+          subject: book.subject,
           id: book.id,
         });
       }
