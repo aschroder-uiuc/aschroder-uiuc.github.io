@@ -66,10 +66,10 @@ function getRecommendationText(recommendation, subject) {
       cleanedText = cleanedText + `genre: ${genre} \n`
     }
     if (location){
-      cleanedText = cleanedText + `location: ${location} \n`
+      cleanedText = cleanedText + `setting: ${location} \n`
     }
     if (subject){
-      cleanedText = cleanedText + `genre: ${subject} \n`
+      cleanedText = cleanedText + `subject: ${subject} \n`
     }
     return cleanedText
   }
