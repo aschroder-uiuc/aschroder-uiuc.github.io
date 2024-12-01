@@ -100,7 +100,7 @@
     <script>
       function getBookRecommendation(wikipediaText, searchTerm, genre, location, subject) {
         const bookList = getBookList();
-        const recommendation = recommendBooks(wikipediaText, bookList, genre, location, subject);
+        const recommendation = recommendBooks(wikipediaText, bookList, searchTerm, genre, location, subject);
         const recommendationText = getRecommendationText(
           recommendation,
           subject,
