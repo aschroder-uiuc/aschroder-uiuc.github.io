@@ -13,7 +13,7 @@ function getRecommendationText(recommendation, subject) {
     return displayText;
   }
   
-  function recommendBooks(wikipediaText, bookList) {
+  function recommendBooks(wikipediaText, bookList, genre, location, subject) {
     const idx = lunr(function () {
       this.field("title");
       this.field("body");
@@ -33,7 +33,10 @@ function getRecommendationText(recommendation, subject) {
     });
   
     const cleanedText = cleanInputText(wikipediaText)
-    const results = idx.search(cleanedText);
+    
+    const fullSearchString = assembleSearchText(cleanedText, genre, location, subject)
+    console.log(fullSearchString)
+    const results = idx.search(fullSearchString);
   
     if (results.length === 0) {
       return null;
@@ -51,4 +54,18 @@ function getRecommendationText(recommendation, subject) {
     //TODO figure out how to handle topics that have formulas
     let cleanedText = wikipediaText.replace(/:/g, ""); // colon is a keyword for lunr, so remove from incoming text
     return cleanedText;
+  }
+
+  function assembleSearchText(cleanedText, genre, location, subject){
+    cleanedText = cleanedText + '\n';
+    if (genre){
+      cleanedText = cleanedText + `genre: ${genre} \n`
+    }
+    if (location){
+      cleanedText = cleanedText + `location: ${location} \n`
+    }
+    if (subject){
+      cleanedText = cleanedText + `genre: ${subject} \n`
+    }
+    return cleanedText
   }

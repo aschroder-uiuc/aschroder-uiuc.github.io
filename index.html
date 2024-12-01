@@ -80,22 +80,27 @@
       document
         .getElementById("searchButton")
         .addEventListener("click", async () => {
-          const subject = document.getElementById("searchInput").value.trim();
-          if (!subject) {
+          const searchTerm = document.getElementById("searchInput").value.trim();
+          if (!searchTerm) {
             alert("Please enter a search term to get a recommendation.");
             return;
           }
 
-          const wikipediaText = await getWikipediaText(subject);
+          const genre = document.getElementById("genreDropdown").value || null;
+          const location = document.getElementById("locationDropdown").value || null;
+          const subject = document.getElementById("subjectDropdown").value || null;
+
+          const wikipediaText = await getWikipediaText(searchTerm);
           document.getElementById("wikipedia").innerText = wikipediaText;
-          const recommendation = getBookRecommendation(wikipediaText, subject);
+
+          const recommendation = getBookRecommendation(wikipediaText, searchTerm, genre, location, subject);
           document.getElementById("recommendations").innerHTML = recommendation;
         });
     </script>
     <script>
-      function getBookRecommendation(wikipediaText, subject) {
+      function getBookRecommendation(wikipediaText, searchTerm, genre, location, subject) {
         const bookList = getBookList();
-        const recommendation = recommendBooks(wikipediaText, bookList);
+        const recommendation = recommendBooks(wikipediaText, bookList, genre, location, subject);
         const recommendationText = getRecommendationText(
           recommendation,
           subject,
