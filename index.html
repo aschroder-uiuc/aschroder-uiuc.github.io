@@ -56,7 +56,6 @@
       document.addEventListener("DOMContentLoaded", populateLocationDropdown);
       function populateLocationDropdown() {
         const settingsList = getSettingsList();
-        console.log('in event listener', settingsList)
         const dropdown = document.getElementById("locationDropdown");
         settingsList.forEach((setting) => {
           const option = document.createElement("option");

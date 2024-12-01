@@ -3048,7 +3048,6 @@ function getSettingsList() {
       }
     });
     const settingsListSorted = Array.from(settingsList).sort();
-    console.log(settingsListSorted)
     return settingsListSorted;
 }
 

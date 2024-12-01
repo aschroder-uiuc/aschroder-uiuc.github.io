@@ -50,7 +50,5 @@ function getRecommendationText(recommendation, subject) {
     console.log(wikipediaText)
     //TODO figure out how to handle topics that have formulas
     let cleanedText = wikipediaText.replace(/:/g, ""); // colon is a keyword for lunr, so remove from incoming text
-    cleanedText = cleanedText.replace(/==.*?==/gs, ''); // remove headers
-    cleanedText = cleanedText.replace(/===.*?===/gs, ''); // remove headers part deux
     return cleanedText;
   }
