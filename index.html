@@ -7,7 +7,7 @@
     body {
       margin-left: 20px;
     }
-  </style>  
+  </style>
   <body>
     <script src="lunr.js"></script>
     <script src="wikipedia.js"></script>
@@ -20,21 +20,26 @@
     <button id="searchButton">Search</button>
 
     <h2>Optional user preferences:</h2>
-    <div style="display: flex; gap: 10px; align-items: center;">
-    <p>Genre:</p>
-    <select id="genreDropdown">
-      <option value="">--No preference--</option>
-    </select>
+    <div style="display: flex; gap: 10px; align-items: center">
+      <p>Genre:</p>
+      <select id="genreDropdown">
+        <option value="">--No preference--</option>
+      </select>
 
-    <p>Location:</p>
-    <select id="locationDropdown">
-      <option value="">--No preference--</option>
-    </select>
+      <p>Location:</p>
+      <select id="locationDropdown">
+        <option value="">--No preference--</option>
+      </select>
 
-    <p>Subject:</p>
-    <select id="subjectDropdown">
-      <option value="">--No preference--</option>
-    </select>
+      <p>Subject:</p>
+      <select id="subjectDropdown">
+        <option value="">--No preference--</option>
+      </select>
+
+      <label style="display: flex; align-items: center" title="Only return titles that have these tags.">
+        <input type="checkbox" id="strictSearchCheckbox" />
+        Strict Search
+      </label>
     </div>
 
     <div id="recommendations">This is the book recommendations div.</div>
@@ -77,35 +82,53 @@
       }
     </script>
     <script>
-      document
-        .getElementById("searchButton")
-        .addEventListener("click", async () => {
-          const searchTerm = document.getElementById("searchInput").value.trim();
-          if (!searchTerm) {
-            alert("Please enter a search term to get a recommendation.");
-            return;
-          }
+      document.getElementById("searchButton").addEventListener("click", async () => {
+        const searchTerm = document.getElementById("searchInput").value.trim();
+        if (!searchTerm) {
+          alert("Please enter a search term to get a recommendation.");
+          return;
+        }
 
-          const genre = document.getElementById("genreDropdown").value || null;
-          const location = document.getElementById("locationDropdown").value || null;
-          const subject = document.getElementById("subjectDropdown").value || null;
+        const genre = document.getElementById("genreDropdown").value || null;
+        const location = document.getElementById("locationDropdown").value || null;
+        const subject = document.getElementById("subjectDropdown").value || null;
 
-          const wikipediaText = await getWikipediaText(searchTerm);
-          document.getElementById("wikipedia").innerText = wikipediaText;
+        const isStrictSearch = document.getElementById("strictSearchCheckbox").checked;
 
-          const recommendation = getBookRecommendation(wikipediaText, searchTerm, genre, location, subject);
-          document.getElementById("recommendations").innerHTML = recommendation;
-        });
+        const wikipediaText = await getWikipediaText(searchTerm);
+        document.getElementById("wikipedia").innerText = wikipediaText;
+
+        const recommendation = getBookRecommendation(
+          wikipediaText,
+          searchTerm,
+          genre,
+          location,
+          subject,
+          isStrictSearch,
+        );
+        document.getElementById("recommendations").innerHTML = recommendation;
+      });
     </script>
     <script>
-      function getBookRecommendation(wikipediaText, searchTerm, genre, location, subject) {
-        const bookList = getBookList();
+      function getBookRecommendation(wikipediaText, searchTerm, genre, location, subject, isStrictSearch) {
+        let bookList = getBookList();
+        if (isStrictSearch) {
+          bookList = filterBookList(bookList, genre, location, subject);
+        }
         const recommendation = recommendBooks(wikipediaText, bookList, searchTerm, genre, location, subject);
-        const recommendationText = getRecommendationText(
-          recommendation,
-          subject,
-        );
+        const recommendationText = getRecommendationText(recommendation, searchTerm);
         return recommendationText;
+      }
+
+      function filterBookList(booksList, genre, location, subject) {
+        const filteredList = booksList.filter((book) => {
+          const matchesGenre = genre ? book.genre.includes(genre) : true;
+          const matchesLocation = location ? book.setting.includes(location) : true;
+          const matchesSubject = subject ? book.subject.includes(subject) : true;
+
+          return matchesGenre && matchesLocation && matchesSubject;
+        });
+        return filteredList;
       }
     </script>
   </body>
