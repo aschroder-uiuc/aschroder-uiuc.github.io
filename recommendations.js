@@ -5,7 +5,7 @@ function getRecommendationText(recommendation, subject) {
   } else {
     amazonUrl = getAmazonUrlForBook(recommendation);
     displayText = `
-                    <h2>Recommended book for subject: ${subject}</h2>
+                    <h2>Recommended book for query: ${subject}</h2>
                     <h2>${recommendation.title} by ${recommendation.author}</h2>
                     <h3>Description:</h3>
                     <p>${recommendation.description}</p>
@@ -55,7 +55,6 @@ function recommendBooks(
     subject,
   );
   const results = idx.search(fullSearchString);
-  console.log(results);
   if (results.length === 0) {
     return null;
   }

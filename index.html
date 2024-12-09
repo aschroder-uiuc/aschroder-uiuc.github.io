@@ -44,6 +44,7 @@
 
     <div id="recommendations"></div>
     <p>------------------------------------------------------------</p>
+    <div id="wikipediaHeader"></div>
     <div id="wikipedia"></div>
 
     <script>
@@ -95,11 +96,13 @@
 
         const isStrictSearch = document.getElementById("strictSearchCheckbox").checked;
 
-        const wikipediaText = await getWikipediaText(searchTerm);
-        document.getElementById("wikipedia").innerText = wikipediaText;
+        const wikipediaResult = await getWikipediaText(searchTerm);
+        const wikipediaDisplayHeader = getWikipediaDisplayHeader(wikipediaResult);
+        document.getElementById("wikipediaHeader").innerHTML = wikipediaDisplayHeader;
+        document.getElementById("wikipedia").innerText = wikipediaResult.wikipediaText;
 
         const recommendation = getBookRecommendation(
-          wikipediaText,
+          wikipediaResult.wikipediaText,
           searchTerm,
           genre,
           location,
@@ -129,6 +132,19 @@
           return matchesGenre && matchesLocation && matchesSubject;
         });
         return filteredList;
+      }
+      function getWikipediaDisplayHeader(wikipediaResult) {
+        let displayText = "";
+        if (!wikipediaResult.wikipediaText) {
+          displayText = "No Wikipedia result found.";
+          return displayText;
+        }
+        const wikipediaUrl = `https://en.wikipedia.org/wiki/${encodeURIComponent(wikipediaResult.wikipediaTitle)}`;
+        displayText = `
+                    <h2>Wikipedia result: ${wikipediaResult.wikipediaTitle}</h2>
+                    <h3><a href=${wikipediaUrl} target="_blank">Link here</a></h3>
+                  `;
+        return displayText;
       }
     </script>
   </body>
