@@ -81,13 +81,13 @@ function assembleSearchText(cleanedText, searchTerm, genre, location, subject) {
       .join(" ") + " ";
   cleanedText = cleanedText + " " + prefix + "\n";
   if (genre) {
-    cleanedText = cleanedText + `genre: ${genre}^20 \n`;
+    cleanedText = cleanedText + `genre: ${genre}^100 \n`;
   }
   if (location) {
-    cleanedText = cleanedText + `setting: ${location}^20 \n`;
+    cleanedText = cleanedText + `setting: ${location}^100 \n`;
   }
   if (subject) {
-    cleanedText = cleanedText + `subject: ${subject}^20 \n`;
+    cleanedText = cleanedText + `subject: ${subject}^100 \n`;
   }
   return cleanedText;
 }
