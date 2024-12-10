@@ -91,7 +91,7 @@ The evaluation for this algorithm was a user-defined set of inputs and expected 
 
 ## Test Set 1
 
-Text Input: "environmental science"
+Text Input: "environmental science"  
 Expected Output: "Silent Spring" by Rachel Carson
 
 ## Test Set 2
