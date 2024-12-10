@@ -12,12 +12,15 @@ Book recommendation system using Wikipedia Text comparison
     - [Optional User Preferences](#optional-user-preferences)
     - [Strict Search](#strict-search)
 - [Evaluation](#evaluation)
+  - [Test Set 1](#test-set-1)
+  - [Test Set 2](#test-set-2)
+  - [Test Set 3](#test-set-3)
 
 ## Software Use Guide
 
 ## Quick Start
 
-You can go here to see and use the final project: https://aschroder-uiuc.github.io/.
+The final project is stored on a website for ease of use. You can go here to see and use the final project: https://aschroder-uiuc.github.io/.
 
 The basic workflow is:
 
@@ -83,3 +86,40 @@ By default, the text search is performed across all components of the book data.
 Depending on how well the other elements of the book data match the input text, this may not be enough to change the ranking for books meeting the selected user preferences. In a strict search, only books that meet the requested metadata options are included in the search. For example, if the user requests a setting of "Chicago", only books that have `setting: ["Chicago"]` will be returned. On the other hand, if none of those books meet the relevance threshold of the search, no books may be returned. The strict search allows for user preference constraints, while increasing the risk that a relevant book is not found at all.
 
 ## Evaluation
+
+The evaluation for this algorithm was a user-defined set of inputs and expected outputs. The first test set was very simple to test the base algorithm, and the subsequent test sets incorporated the user preferences and strict search.
+
+## Test Set 1
+
+Text Input: "environmental science"
+Expected Output: "Silent Spring" by Rachel Carson
+
+## Test Set 2
+
+Text Input: "Dogs"
+Expected Output: "Where the Red Fern Grows" by Wilson Rawls
+
+Text Input: "Dogs"
+Genre: "Nonfiction"
+Strict Search: "False"
+Expected Output: "On the Origin Of Species" by Charles Darwin
+
+## Test Set 3
+
+Text Input: "World War II"
+Expected Output: "The Second World War" by Winston Churchill
+
+Text Input: "World War II"
+Genre: Fiction
+Strict Search: True
+Expected Output: "Slaughterhouse-Five" by Kurt Vonnegut
+
+Text Input: "World War II"
+Setting: Amsterdam
+Strict Search: True
+Expected Output: "The Diary of a Young Girl" by Anne Frank
+
+Text Input: "World War II"
+Subject: Adventure
+Strict Search: True
+Expected Output: "The Lion, The Witch and the Wardrobe" by C.S. Lewis
