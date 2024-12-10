@@ -101,7 +101,7 @@ Expected Output: "Where the Red Fern Grows" by Wilson Rawls
 
 Text Input: "Dogs"  
 Genre: "Nonfiction"  
-Strict Search: "False"  
+Strict Search: False  
 Expected Output: "On the Origin Of Species" by Charles Darwin
 
 ## Test Set 3
