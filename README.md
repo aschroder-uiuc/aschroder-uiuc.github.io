@@ -2,7 +2,10 @@ Final project for CS 410 Text Information Systems in Fall 2024.
 
 Book recommendation system using Wikipedia Text comparison
 
-Software Use:
+- [Quick Start](#quick-start)
+
+## Quick Start
+
 You can go here to see and use the final project: https://aschroder-uiuc.github.io/.
 
 The basic workflow is:
