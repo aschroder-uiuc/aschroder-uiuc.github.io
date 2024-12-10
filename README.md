@@ -96,30 +96,30 @@ Expected Output: "Silent Spring" by Rachel Carson
 
 ## Test Set 2
 
-Text Input: "Dogs"
+Text Input: "Dogs"  
 Expected Output: "Where the Red Fern Grows" by Wilson Rawls
 
-Text Input: "Dogs"
-Genre: "Nonfiction"
-Strict Search: "False"
+Text Input: "Dogs"  
+Genre: "Nonfiction"  
+Strict Search: "False"  
 Expected Output: "On the Origin Of Species" by Charles Darwin
 
 ## Test Set 3
 
-Text Input: "World War II"
+Text Input: "World War II"  
 Expected Output: "The Second World War" by Winston Churchill
 
-Text Input: "World War II"
-Genre: Fiction
-Strict Search: True
+Text Input: "World War II"  
+Genre: Fiction  
+Strict Search: True  
 Expected Output: "Slaughterhouse-Five" by Kurt Vonnegut
 
-Text Input: "World War II"
-Setting: Amsterdam
-Strict Search: True
+Text Input: "World War II"  
+Setting: Amsterdam  
+Strict Search: True  
 Expected Output: "The Diary of a Young Girl" by Anne Frank
 
-Text Input: "World War II"
-Subject: Adventure
-Strict Search: True
+Text Input: "World War II"  
+Subject: Adventure  
+Strict Search: True  
 Expected Output: "The Lion, The Witch and the Wardrobe" by C.S. Lewis
