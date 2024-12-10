@@ -2197,6 +2197,22 @@ const bookList = [
         ]
     },
     {
+        "title": "Where the Red Fern Grows",
+        "author": "Wilson Rawls",
+        "description": "This novel tells the story of a young boy living in the Ozark Mountains who dreams of owning a pair of Redbone Coonhounds for hunting. After working hard to save up enough money, he buys two pups and trains them to be champion hunters. The book explores themes of determination, love, and loss as the boy experiences the joys and heartbreak of owning and training his beloved dogs. ",
+        "id": 131,
+        "genre": [
+            "fiction",
+        ],
+        "setting": [
+            "united-states"
+        ],
+        "subject": [
+            "loss",
+            "adventure"
+        ]
+    },
+    {
         "title": "Buddenbrooks",
         "author": "Thomas Mann",
         "description": "\"Buddenbrooks\" is a novel that chronicles the decline of a wealthy north German merchant family over the course of four generations. The narrative focuses on the fluctuating fortunes and internal struggles of the family, reflecting the societal changes and economic decline of the period. The family's personal and business relationships, their moral values, and their struggle to maintain social status are all explored against the backdrop of the changing political and social landscape.",
@@ -3223,21 +3239,6 @@ const bookList = [
         ],
         "subject": [
             "culture"
-        ]
-    },
-    {
-        "title": "The Electric Kool-Aid Acid Test",
-        "author": "Tom Wolfe",
-        "description": "The book follows the psychedelic adventures of Ken Kesey and his band of Merry Pranksters as they traverse the United States in a painted bus, hosting \"Acid Test\" parties where attendees are given LSD. The narrative is a vivid exploration of the burgeoning counterculture of the 1960s, capturing the spirit of the era through the lens of this eccentric group and their hallucinogenic experiences. It's a seminal work of New Journalism, blending reportage with literary techniques to create a highly subjective, immersive account of the Pranksters' journey.",
-        "id": 211,
-        "genre": [
-            "nonfiction"
-        ],
-        "setting": [
-            "united-states"
-        ],
-        "subject": [
-            "adventure"
         ]
     },
     {
