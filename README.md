@@ -2,7 +2,18 @@ Final project for CS 410 Text Information Systems in Fall 2024.
 
 Book recommendation system using Wikipedia Text comparison
 
-- [Quick Start](#quick-start)
+- [Software Use Guide](#software-use-guide)
+  - [Quick Start](#quick-start)
+  - [Detailed Use Guide](#detailed-use-guide)
+- [Software Implementation](#software-implementation)
+  - [Core Book Data](#core-book-data)
+  - [Base Implementation](#base-implementation)
+  - [Additional Features Implementation](#additional-features-implementation)
+    - [Optional User Preferences](#optional-user-preferences)
+    - [Strict Search](#strict-search)
+- [Evaluation](#evaluation)
+
+## Software Use Guide
 
 ## Quick Start
 
@@ -14,17 +25,20 @@ The basic workflow is:
 2. Choose any optional user preferences.
 3. Click "search" button.
 
-This website has a simple user interface. The user should enter a text string associated with a wikipedia topic. The software will find the book in the curated book list that is most similar to the wikipedia text and recommend that book, with a book description and a link to that book on Amazon.
+## Detailed Use Guide
 
-In addition to the base text input, there are several optional user inputs. You can prioritize books by genre, setting, or subject. For instance, if you are interested in World War I, you may prefer a non-fiction book, or a fiction book set during the time period. This can be selected in the "genre" dropdown. The "setting" dropdown includes a list of locations in the book list, and "subject" includes a list of topics in the book list. Only one option in each category can be selected, but all three categories can be combined. By default, no preference is included in the search.
+This website has a simple user interface. The user should enter a text string associated with a wikipedia topic. There are also dropdowns for user preferences for genre, setting, and subject. There is also a checkbox for a strict search in the booklist, which will limit the results to books that meet the user preferences. Otherwise, preferences will influence the weight of the match, but not exclude any books from being returned.
 
-There is also a checkbox for a "strict search." Without the strict search, the algorithm will increase the weight on the requested category, but will still search all of the original list and return the most relevant - this may not be a book in the requested category if another books strongly matches the text. The "strict search" requires that the returned book meet those requirements, so any returned book MUST be in the requested category.
+For instance, if you are interested in World War I, you may prefer a non-fiction book, or a fiction book set during the time period. This can be selected in the "genre" dropdown. The "setting" dropdown includes a list of locations in the book list, and "subject" includes a list of topics in the book list. Only one option in each category can be selected, but all three categories can be combined. By default, no preference is included in the search.
 
-The user can then find the recommended book on Amazon by following the link below the recommendation. You also can go back to the original Wikipedia page if you are interested.
+Without the strict search, the algorithm will increase the weight on the requested category, but will still search all of the original list and return the most relevant. This may not be a book in the requested category if another books strongly matches the text. The "strict search" requires that the returned book meet those requirements, so any returned book MUST be in the requested category.
 
-Software Implementation
+The software will find the book in the curated book list that is most similar to the wikipedia text and recommend that book, with a book description and a link to that book on Amazon. The user can then find the recommended book on Amazon by following the link below the recommendation. You also can go back to the original Wikipedia page if you are interested.
 
-Data Structure
+## Software Implementation
+
+## Core Book Data
+
 Each element of the book list includes the title, author, and a description of the the book, along with metadata about genres, settings, and subjects. For example, the book "Crime and Punishment" looks like:
 
 ```
@@ -50,18 +64,22 @@ Each element of the book list includes the title, author, and a description of t
     }
 ```
 
-Base Implementation
+## Base Implementation
+
 The core algorithm takes a block of wikipedia text, uses BM25 in the Lunr.js library to score the relevance of a list of books, and returns the most relevant book. Lunr.js is a lightweight search library that can be run in a browser (https://lunrjs.com/). It was selected because it did not require any user installation, worked in all major browser types, and had minimal latency at the current scale.
 
 The base user input is a text string, which is used to query the Wikipedia API to get the text of the Wikipedia article for that term. The returned text is parsed, then used as the query term for a BM25 search. The ranked documents are derived from a curated book list that was collected to span mulitple different genres, settings, and themes. The book list was captured using the rankings at https://thegreatestbooks.org/.
 
 Once the most relevant book is identified, it is returned to the user with the description and a link to the book on Amazon.
 
-Additional Features Implementation
-Optional User Preferences
+## Additional Features Implementation
+
+## Optional User Preferences
+
 By default, the text search is performed across all components of the book data. An additional option allows the user to select a genre, setting, or subject in a dropdown menu. These choices increase the weight assigned to the metadata properties in the search.
 
-Strict Search
+## Strict Search
+
 Depending on how well the other elements of the book data match the input text, this may not be enough to change the ranking for books meeting the selected user preferences. In a strict search, only books that meet the requested metadata options are included in the search. For example, if the user requests a setting of "Chicago", only books that have `setting: ["Chicago"]` will be returned. On the other hand, if none of those books meet the relevance threshold of the search, no books may be returned. The strict search allows for user preference constraints, while increasing the risk that a relevant book is not found at all.
 
-Evaluation
+## Evaluation
