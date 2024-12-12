@@ -4,6 +4,7 @@ Book recommendation system using Wikipedia Text comparison
 
 - [Software Use Guide](#software-use-guide)
   - [Quick Start](#quick-start)
+  - [Tutorial Video](#tutorial-video)
   - [Detailed Use Guide](#detailed-use-guide)
 - [Software Implementation](#software-implementation)
   - [Core Book Data](#core-book-data)
@@ -28,6 +29,12 @@ The basic workflow is:
 1. Input a Wikipedia search term in the text box.
 2. Choose any optional user preferences.
 3. Click "search" button.
+
+## Tutorial Video
+
+Video tutorial can be found here: https://mediaspace.illinois.edu/media/t/1_xsuhp0zd
+
+This can take several minutes to load, so please be patient!
 
 ## Detailed Use Guide
 
