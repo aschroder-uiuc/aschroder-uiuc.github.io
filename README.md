@@ -15,6 +15,7 @@ Book recommendation system using Wikipedia Text comparison
   - [Test Set 1](#test-set-1)
   - [Test Set 2](#test-set-2)
   - [Test Set 3](#test-set-3)
+  - [Assessment](#assessment)
 
 ## Software Use Guide
 
@@ -123,3 +124,7 @@ Text Input: "World War II"
 Subject: Adventure  
 Strict Search: True  
 Expected Output: "The Lion, The Witch and the Wardrobe" by C.S. Lewis
+
+## Assessment
+
+I experimented with the weights of each of the inputs until these empirically-defined outputs were reached. In some cases, the match for one book was too high to be overcome by any of the other inputs, so I implemented a strict search to limit the inputs. The current algorithm meets these expected use cases.
